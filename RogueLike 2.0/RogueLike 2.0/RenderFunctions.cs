@@ -15,6 +15,14 @@ namespace RogueLike_2._0_
             ConsoleElements = new Dictionary<string, ConsoleColor>()
             {
                 {"&", ConsoleColor.Yellow},
+                {"r", ConsoleColor.DarkGreen},
+                {"R", ConsoleColor.DarkGreen},
+                {"c", ConsoleColor.DarkCyan},
+                {"C", ConsoleColor.DarkCyan},
+                {"g", ConsoleColor.DarkBlue},
+                {"s", ConsoleColor.Green},
+                {"S", ConsoleColor.Green},
+
                 {"#", ConsoleColor.White},
                 {".", ConsoleColor.DarkGray},
                 {"░", ConsoleColor.Red},

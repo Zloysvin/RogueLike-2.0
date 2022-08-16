@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RogueLike_2._0_
 {
@@ -22,7 +23,8 @@ namespace RogueLike_2._0_
 
             InitMap();
             MakeShiftDataBases.InitDBs();
-            Player = new Player(0, 0, 10, 10, 10, 10, 10, "&", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[1]);
+            Player = new Player(0, 0, 10, 10, 10, 10, 10, "&", "player", 3, 1, 0, 0, 10, MakeShiftDataBases.Items[1]);
+            InitEntities();
             Player.SetInventory();
 
             RenderFunctions.InitColors();
@@ -121,7 +123,7 @@ namespace RogueLike_2._0_
                 return true;
             }
 
-            if (Map[newY, newX] == "#")
+            if (MakeShiftDataBases.Collisions.Contains(Map[newY, newX]))
             {
                 return true;
             }
@@ -131,6 +133,25 @@ namespace RogueLike_2._0_
 
         static void InitEntities()
         {
+            List<Entity> availableEntities = new List<Entity>();
+            foreach (var entity in MakeShiftDataBases.Entities)
+            {
+                string[] leveles = entity.Value.SpawnLevel.Split("-");
+                if (Player.level >= Convert.ToInt32(leveles[0]) && Player.level <= Convert.ToInt32(leveles[1]))
+                {
+                    availableEntities.Add(entity.Value);
+                }
+            }               
+            Random rnd = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                Entities[i] = availableEntities[rnd.Next(availableEntities.Count)];
+                int y = rnd.Next(30);
+                int x = rnd.Next(30);
+                Entities[i].X = x;
+                Entities[i].Y = y;
+                Map[y, x] = Entities[i].Symbol;
+            }
         }
     }
 }

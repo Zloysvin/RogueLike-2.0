@@ -20,7 +20,7 @@ namespace RogueLike_2._0_
 
         public Item[] Inventory = new Item[10];
 
-        public Player(int y, int x, int hp, int strength, int agility, int endurance, int luck, string symbol, int level, int playerLevel, int xp, int gold, int maxHp, Item armor) : base(y, x, hp, strength, agility, endurance, luck, symbol)
+        public Player(int y, int x, int hp, int strength, int agility, int endurance, int luck, string symbol, string name, int level, int playerLevel, int xp, int gold, int maxHp, Item armor) : base(y, x, hp, strength, agility, endurance, luck, symbol, name)
         {
             this.level = level;
             PlayerLevel = playerLevel;
