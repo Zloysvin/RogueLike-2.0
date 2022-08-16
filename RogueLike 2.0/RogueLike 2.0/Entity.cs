@@ -34,6 +34,7 @@ namespace RogueLike_2._0_
             HP = hp;
             Strength = strength;
             Agility = agility;
+            Endurance = endurance;
             Luck = luck;
             Symbol = symbol;
             Damage = strength / 3;

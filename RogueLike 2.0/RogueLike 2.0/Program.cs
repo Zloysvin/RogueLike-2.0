@@ -26,6 +26,8 @@ namespace RogueLike_2._0_
             Player = new Player(0, 0, 10, 10, 10, 10, 10, "&", "player", 3, 1, 0, 0, 10, MakeShiftDataBases.Items[1]);
             InitEntities();
             Player.SetInventory();
+            Player.Inventory[0] = MakeShiftDataBases.Items[102];
+            Player.Inventory[1] = MakeShiftDataBases.Items[102];
 
             RenderFunctions.InitColors();
             RenderFunctions.RenderMap(Map);
