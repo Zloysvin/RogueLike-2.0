@@ -20,15 +20,12 @@ namespace RogueLike_2._0_
 
         public string Symbol;
         public int Damage;
-        public int gold;
-        public int level;
-        public int MaxHP;
-
+        
         public Entity()
         {
 
         }
-        public Entity(int y, int x, int hp, int strength, int agility, int endurance, int luck, string symbol, int damage)
+        public Entity(int y, int x, int hp, int strength, int agility, int endurance, int luck, string symbol)
         {
             Y = y;
             X = x;
@@ -38,11 +35,7 @@ namespace RogueLike_2._0_
             Endurance = endurance;
             Luck = luck;
             Symbol = symbol;
-            Damage = damage;
-        }
-
-        public void SetInventory()
-        {
+            Damage = strength/3;
         }
     }
 }

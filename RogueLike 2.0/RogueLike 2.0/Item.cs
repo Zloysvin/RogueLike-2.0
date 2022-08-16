@@ -13,18 +13,35 @@ namespace RogueLike_2._0_
 
         public int DmgMax;
         public int DmgMin;
+        public int ArmorMaxAm;
+        public int ArmorAm;
         public int Heal;
         public int SpecialID;
         public int level;
 
-        public Item(string name, string type, int dmgMax, int dmgMin, int heal, int specialId, int level)
+        public Item(string name, string type, int dmgMax, int dmgMin,  int specialId, int level)
         {
             Name = name;
             Type = type;
             DmgMax = dmgMax;
             DmgMin = dmgMin;
-            Heal = heal;
             SpecialID = specialId;
+            this.level = level;
+        }
+        public Item(string name, string type, int heal, int level)
+        {
+            Name =name;
+            Type = type;
+            Heal = heal;
+            this.level = level;
+        }
+
+        public Item(int armorMaxAm, string name, string type, int level)
+        {
+            Name = name;
+            Type = type;
+            ArmorMaxAm = armorMaxAm;
+            ArmorAm = armorMaxAm;
             this.level = level;
         }
     }

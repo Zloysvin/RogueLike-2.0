@@ -6,31 +6,67 @@ namespace RogueLike_2._0_
     internal class Program
     {
         public static string[,] Map = new string[30, 30];
+        public static Player Player;
         public static Entity[] Entities = new Entity[10];
-
 
         public static ConsoleKeyInfo cki;
 
         public static int Y = 0;
         public static int X = 0;
 
+        public static int count = 0;
+
         static void Main(string[] args)
         {
             Console.SetWindowSize(90, 40);
 
-            Entities[0] = new Player(0, 0, 10, 10, 10, 10, 10, "&", 0, 1, 0, 10);
-            Entities[0].SetInventory();
-            RenderFunctions.InitColors();
             InitMap();
+            MakeShiftDataBases.InitDBs();
+            Player = new Player(0, 0, 10, 10, 10, 10, 10, "&", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[1]);
+            Player.SetInventory();
+
+            RenderFunctions.InitColors();
             RenderFunctions.RenderMap(Map);
             RenderFunctions.RenderUI();
+            RenderFunctions.UpdateSliderUI(Player);
+            RenderFunctions.UpdateInventoryUI(Player);
+            RenderFunctions.UpdateCharacterUI(Player);
+            RenderFunctions.UpdateFooter(Player);
+            RenderFunctions.InitLog();
 
             Console.TreatControlCAsInput = true;
             while (true)
             {
                 Movement();
+                count++;
+                if (count == 10)
+                {
+                    RenderFunctions.UpdateLogUI("Log test 1", 1);
+                }
+
+                if (count == 20)
+                {
+                    RenderFunctions.UpdateLogUI("Log test 2", 4);
+                    Player.Gold = 2786;
+                    RenderFunctions.UpdateFooter(Player);
+                }
+
+                if (count == 25)
+                {
+                    RenderFunctions.UpdateLogUI("Log test 3", 2);
+                }
+
+                if (count == 30)
+                {
+                    RenderFunctions.UpdateLogUI("Log test 4", 2);
+                }
+                if (count == 35)
+                {
+                    RenderFunctions.UpdateLogUI("Log test 5", 3);
+                }
             }
         }
+
         static void InitMap()
         {
             Random rnd = new Random();
@@ -53,33 +89,31 @@ namespace RogueLike_2._0_
                 }
             }
         }
+
         static void Movement()
         {
             cki = Console.ReadKey();
             if (cki.Key == ConsoleKey.UpArrow)
             {
-                if (!Collision(Y - 1, X))
-                    RenderFunctions.RenderMovement(Y, X, --Y, X);
+                if (!Collision(Y - 1, X)) RenderFunctions.RenderMovement(Y, X, --Y, X);
             }
 
             if (cki.Key == ConsoleKey.RightArrow)
             {
-                if (!Collision(Y, X + 1))
-                    RenderFunctions.RenderMovement(Y, X, Y, ++X);
+                if (!Collision(Y, X + 1)) RenderFunctions.RenderMovement(Y, X, Y, ++X);
             }
 
             if (cki.Key == ConsoleKey.DownArrow)
             {
-                if (!Collision(Y + 1, X))
-                    RenderFunctions.RenderMovement(Y, X, ++Y, X);
+                if (!Collision(Y + 1, X)) RenderFunctions.RenderMovement(Y, X, ++Y, X);
             }
 
             if (cki.Key == ConsoleKey.LeftArrow)
             {
-                if (!Collision(Y , X - 1))
-                    RenderFunctions.RenderMovement(Y, X, Y, --X);
+                if (!Collision(Y, X - 1)) RenderFunctions.RenderMovement(Y, X, Y, --X);
             }
         }
+
         static bool Collision(int newY, int newX)
         {
             if (newY == 30 || newY < 0 || newX == 30 || newX < 0)
@@ -91,12 +125,12 @@ namespace RogueLike_2._0_
             {
                 return true;
             }
+
             return false;
         }
 
         static void InitEntities()
         {
-
         }
     }
 }
