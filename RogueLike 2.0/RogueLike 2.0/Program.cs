@@ -25,9 +25,9 @@ namespace RogueLike_2._0_
 
             InitMap();
             MakeShiftDataBases.InitDBs();
-            Player = new Player(0, 0, 10, 10, 10, 10, 10, "&", "player", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[1]); 
+            Player = new Player(0, 0, 5, 3, 3, 3, 3, "&", "player", 3, 1, 0, 0, 10, MakeShiftDataBases.Items[1]); 
+            Console.Clear();
             InitEntities();
-            Player.SetInventory();
             Player.Inventory[0] = MakeShiftDataBases.Items[666];
             Player.Inventory[1] = MakeShiftDataBases.Items[102];
 
@@ -43,7 +43,7 @@ namespace RogueLike_2._0_
             Console.TreatControlCAsInput = true;
             while (true)
             {
-                Movement();
+                KeyPress();
                 count++;
             }
         }
@@ -71,30 +71,62 @@ namespace RogueLike_2._0_
             }
         }
 
-        static void Movement()
+        static void KeyPress()
         {
             cki = Console.ReadKey();
-            if (cki.Key == ConsoleKey.UpArrow)
+            switch (cki.Key)
             {
-                if (!Collision(Y - 1, X)) RenderFunctions.RenderMovement(Y, X, --Y, X);
-            }
-
-            if (cki.Key == ConsoleKey.RightArrow)
-            {
-                if (!Collision(Y, X + 1)) RenderFunctions.RenderMovement(Y, X, Y, ++X);
-            }
-
-            if (cki.Key == ConsoleKey.DownArrow)
-            {
-                if (!Collision(Y + 1, X)) RenderFunctions.RenderMovement(Y, X, ++Y, X);
-            }
-
-            if (cki.Key == ConsoleKey.LeftArrow)
-            {
-                if (!Collision(Y, X - 1)) RenderFunctions.RenderMovement(Y, X, Y, --X);
+                case ConsoleKey.UpArrow:
+                    if (!Collision(Y - 1, X)) RenderFunctions.RenderMovement(Y, X, --Y, X);
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (!Collision(Y, X + 1)) RenderFunctions.RenderMovement(Y, X, Y, ++X);
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (!Collision(Y + 1, X)) RenderFunctions.RenderMovement(Y, X, ++Y, X);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if (!Collision(Y, X - 1)) RenderFunctions.RenderMovement(Y, X, Y, --X);
+                    break;
+                case ConsoleKey.NumPad2:
+                    ReplaceInvemtory(1);
+                    break;
+                case ConsoleKey.NumPad3:
+                    ReplaceInvemtory(2);
+                    break;
+                case ConsoleKey.NumPad4:
+                    ReplaceInvemtory(3);
+                    break;
+                case ConsoleKey.NumPad5:
+                    ReplaceInvemtory(4);
+                    break;
+                case ConsoleKey.NumPad6:
+                    ReplaceInvemtory(5);
+                    break;
+                case ConsoleKey.NumPad7:
+                    ReplaceInvemtory(6);
+                    break;
+                case ConsoleKey.NumPad8:
+                    ReplaceInvemtory(7);
+                    break;
+                case ConsoleKey.NumPad9:
+                    ReplaceInvemtory(8);
+                    break;
+                case ConsoleKey.NumPad0:
+                    ReplaceInvemtory(9);
+                    break;
             }
         }
 
+        private static void ReplaceInvemtory(int target)
+        {
+            Item buffer = new Item();
+            buffer = Player.Inventory[0];
+            Player.Inventory[0] = Player.Inventory[target];
+            Player.Inventory[target] = buffer;
+            RenderFunctions.UpdateInventoryUI(Player);
+            RenderFunctions.UpdateCharacterUI(Player);
+        }
         static bool Collision(int newY, int newX)
         {
             if (newY == 30 || newY < 0 || newX == 30 || newX < 0)

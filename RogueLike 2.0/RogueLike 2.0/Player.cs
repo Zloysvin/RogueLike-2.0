@@ -16,6 +16,7 @@ namespace RogueLike_2._0_
         public int Gold;
         public int MaxHP;
         public int Dodge;
+        private int baseHP;
 
         public Item Armor;
 
@@ -27,9 +28,12 @@ namespace RogueLike_2._0_
             PlayerLevel = playerLevel;
             XP = xp;
             Gold = gold;
-            MaxHP = maxHp;
+            baseHP = maxHp;
+            MaxHP = Convert.ToInt32(baseHP + 10 * Math.Pow(1.2, Endurance / 2 + PlayerLevel));
+            HP = MaxHP;
             Armor = armor;
             Dodge = Convert.ToInt32(Math.Ceiling(1.0 + 4.0 / 3.0 * Agility + Luck * 1.5));
+            SetInventory();
             UpdateCharacter();
         }
 
@@ -43,8 +47,19 @@ namespace RogueLike_2._0_
 
         public void UpdateCharacter()
         {
+            if (PlayerLevel != 1)
+                Endurance += Convert.ToInt32(Math.Sqrt(PlayerLevel));
+
             LimitXP = Convert.ToInt32(100 * Math.Pow(1.2, PlayerLevel - 1));
             Dodge = Convert.ToInt32(Math.Ceiling(1.0 + 4.0 / 3.0 * Agility + Luck * 1.5));
+            MaxHP = Convert.ToInt32(baseHP + 10 * Math.Pow(1.2, Endurance/2+PlayerLevel));
+            if (HP < MaxHP)
+            {
+                HP += MaxHP / 3;
+                if(HP > MaxHP)
+                    HP = MaxHP;
+            }
+            RenderFunctions.UpdateCharacterUI(this);
         }
     }
 }

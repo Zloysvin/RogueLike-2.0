@@ -20,6 +20,10 @@ namespace RogueLike_2._0_
         public string level;
         public int DropChance;
 
+        public Item()
+        {
+
+        }
         public Item(string name, string type, int dmgMax, int dmgMin,  int specialId, string level, int dropChance)
         {
             Name = name;
