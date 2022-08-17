@@ -14,8 +14,6 @@ namespace RogueLike_2._0_
 
         public static ConsoleKeyInfo cki;
 
-        public static int Y = 0;
-        public static int X = 0;
 
         public static int count = 0;
 
@@ -23,13 +21,12 @@ namespace RogueLike_2._0_
         {
             Console.SetWindowSize(90, 40);
 
-            InitMap();
             MakeShiftDataBases.InitDBs();
-            Player = new Player(0, 0, 5, 3, 3, 3, 3, "&", "player", 3, 1, 0, 0, 10, MakeShiftDataBases.Items[1]); 
+            Player = new Player(0, 0, 5, 3, 3, 3, 3, "&", "player", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[1]); 
             Console.Clear();
+            InitMap();
             InitEntities();
-            Player.Inventory[0] = MakeShiftDataBases.Items[666];
-            Player.Inventory[1] = MakeShiftDataBases.Items[102];
+            Player.Inventory[0] = MakeShiftDataBases.Items[1];
 
             RenderFunctions.InitColors();
             RenderFunctions.RenderMap(Map);
@@ -55,7 +52,7 @@ namespace RogueLike_2._0_
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    if (i == 0 && j == 0)
+                    if (i == Player.Y && j == Player.X)
                     {
                         Map[i, j] = "&";
                     }
@@ -69,6 +66,8 @@ namespace RogueLike_2._0_
                     }
                 }
             }
+
+            Map[rnd.Next(30), rnd.Next(30)] = "<";
         }
 
         static void KeyPress()
@@ -77,16 +76,16 @@ namespace RogueLike_2._0_
             switch (cki.Key)
             {
                 case ConsoleKey.UpArrow:
-                    if (!Collision(Y - 1, X)) RenderFunctions.RenderMovement(Y, X, --Y, X);
+                    if (!Collision(Player.Y - 1, Player.X)) RenderFunctions.RenderMovement(Player.Y, Player.X, --Player.Y, Player.X);
                     break;
                 case ConsoleKey.RightArrow:
-                    if (!Collision(Y, X + 1)) RenderFunctions.RenderMovement(Y, X, Y, ++X);
+                    if (!Collision(Player.Y, Player.X + 1)) RenderFunctions.RenderMovement(Player.Y, Player.X, Player.Y, ++Player.X);
                     break;
                 case ConsoleKey.DownArrow:
-                    if (!Collision(Y + 1, X)) RenderFunctions.RenderMovement(Y, X, ++Y, X);
+                    if (!Collision(Player.Y + 1, Player.X)) RenderFunctions.RenderMovement(Player.Y, Player.X, ++Player.Y, Player.X);
                     break;
                 case ConsoleKey.LeftArrow:
-                    if (!Collision(Y, X - 1)) RenderFunctions.RenderMovement(Y, X, Y, --X);
+                    if (!Collision(Player.Y, Player.X - 1)) RenderFunctions.RenderMovement(Player.Y, Player.X, Player.Y, --Player.X);
                     break;
                 case ConsoleKey.NumPad2:
                     ReplaceInvemtory(1);
@@ -127,6 +126,7 @@ namespace RogueLike_2._0_
             RenderFunctions.UpdateInventoryUI(Player);
             RenderFunctions.UpdateCharacterUI(Player);
         }
+
         static bool Collision(int newY, int newX)
         {
             if (newY == 30 || newY < 0 || newX == 30 || newX < 0)
@@ -141,6 +141,21 @@ namespace RogueLike_2._0_
                     Battle(newY, newX);
                 }
                 return true;
+            }
+
+            if (Map[newY, newX] == "<")
+            {
+                Player.level++;
+                Console.Clear();
+                InitMap();
+                InitEntities();
+                RenderFunctions.RenderMap(Map);
+                RenderFunctions.RenderUI();
+                RenderFunctions.UpdateSliderUI(Player);
+                RenderFunctions.UpdateInventoryUI(Player);
+                RenderFunctions.UpdateCharacterUI(Player);
+                RenderFunctions.UpdateFooter(Player);
+                RenderFunctions.UpdateLogUI();
             }
 
             return false;
@@ -203,7 +218,7 @@ namespace RogueLike_2._0_
                             RenderFunctions.UpdateSliderUI(Player);
                             RenderFunctions.UpdateFooter(Player);
                             RenderFunctions.UpdateLogUI($"{Entities[i].Name} Was Killed", 3);
-                            RenderFunctions.UpdateLogUI($"Gained {Entities[i].DropGold} Gold", 6);
+                            RenderFunctions.UpdateLogUI($"Gained {Entities[i].DropGold} Gold And {Entities[i].XP} Experience", 6);
                             Map[enemY, enemX] = ".";
                             RenderFunctions.ReplaceExactElement(enemY, enemX, Map);
                         }

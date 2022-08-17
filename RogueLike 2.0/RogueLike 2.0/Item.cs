@@ -18,13 +18,14 @@ namespace RogueLike_2._0_
         public int Heal;
         public int SpecialID;
         public string level;
+        public bool Dropable;
         public int DropChance;
 
         public Item()
         {
 
         }
-        public Item(string name, string type, int dmgMax, int dmgMin,  int specialId, string level, int dropChance)
+        public Item(string name, string type, int dmgMax, int dmgMin,  int specialId, string level, bool dropable)
         {
             Name = name;
             Type = type;
@@ -32,7 +33,7 @@ namespace RogueLike_2._0_
             DmgMin = dmgMin;
             SpecialID = specialId;
             this.level = level;
-            DropChance = dropChance;
+            Dropable = dropable;
         }
         public Item(string name, string type, int dmgMax, int dmgMin, int specialId, string level, bool dropable, int dropChance)
         {
@@ -42,15 +43,16 @@ namespace RogueLike_2._0_
             DmgMin = dmgMin;
             SpecialID = specialId;
             this.level = level;
+            Dropable = dropable;
             DropChance = dropChance;
         }
-        public Item(string name, string type, int heal, string level, int dropChance)
+        public Item(string name, string type, int heal, string level, bool dropable)
         {
             Name =name;
             Type = type;
             Heal = heal;
             this.level = level;
-            DropChance = dropChance;
+            Dropable = dropable;
         }
 
         public Item(int armorMaxAm, string name, string type, string level, int dropChance)

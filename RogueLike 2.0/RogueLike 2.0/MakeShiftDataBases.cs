@@ -19,14 +19,15 @@ namespace RogueLike_2._0_
         {
             Items = new Dictionary<int, Item>
             {
-                {0, new Item("<Empty>", "empty",0, 0, 0, "-", 0) },
+                {0, new Item("<Empty>", "empty",0, 0, 0, "-", false) },
+                {1, new Item("Short Sword", "weapon", 6, 3, 0, "0-3", true)},
                 {101, new Item("Claw", "weapon", 4, 1, 0, "0-5", true, 10)},
                 {102, new Item("Robo-Claw", "weapon", 5, 2, 0,"0-5" ,true, 10)},
                 {103, new Item("Spear", "weapon", 7, 4, 0,"2-5" ,true, 10)},
                 {104, new Item("Tusk", "weapon", 4, 3, 0,"-" ,false, 0)},
                 {105, new Item("Robo-Tusk", "weapon", 6, 4, 0,"-" ,false, 0)},
-                {666, new Item("Admin Sword", "weapon", 250, 10, 0, "-", 0)},
-                {1, new Item(0, "No Armor", "armor", "-", 0)}
+                {666, new Item("Admin Sword", "weapon", 250, 10, 0, "-", false)},
+                {201, new Item(0, "No Armor", "armor", "-", 0)}
             };
             Entities = new Dictionary<string, Entity>
             {//y, x, hp, str, agl, end, lck
