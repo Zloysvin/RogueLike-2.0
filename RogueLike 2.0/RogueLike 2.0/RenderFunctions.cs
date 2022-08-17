@@ -25,12 +25,15 @@ namespace RogueLike_2._0_
 
                 {"#", ConsoleColor.White},
                 {".", ConsoleColor.DarkGray},
+                {"_", ConsoleColor.Black},
                 {"░", ConsoleColor.Red},
                 {"▒", ConsoleColor.Gray},
                 {"╬", ConsoleColor.Blue},
                 {"║", ConsoleColor.Red},
                 {"╩", ConsoleColor.Red},
-                {"╦", ConsoleColor.Red}
+                {"╦", ConsoleColor.Red},
+                {"╠", ConsoleColor.Blue},
+                {"?", ConsoleColor.Yellow}
 
             }; 
         }
@@ -54,12 +57,19 @@ namespace RogueLike_2._0_
             RenderElement("&");
             Console.SetCursorPosition(0, 30);
         }
-
+        
         private static void RenderElement(string element)
         {
             Console.ForegroundColor = ConsoleElements[element];
             Console.Write(element);
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void ReplaceExactElement(int Y, int X, string[,] Map)
+        {
+            Console.SetCursorPosition(X, Y);
+            RenderElement(Map[Y, X]);
+            Console.SetCursorPosition(0, 30);
         }
 
         public static void RenderMap(string[,] Map)

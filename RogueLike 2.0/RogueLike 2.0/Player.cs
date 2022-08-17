@@ -12,6 +12,7 @@ namespace RogueLike_2._0_
         public int level;
         public int PlayerLevel;
         public int XP;
+        public int LimitXP;
         public int Gold;
         public int MaxHP;
         public int Dodge;
@@ -29,6 +30,7 @@ namespace RogueLike_2._0_
             MaxHP = maxHp;
             Armor = armor;
             Dodge = Convert.ToInt32(Math.Ceiling(1.0 + 4.0 / 3.0 * Agility + Luck * 1.5));
+            UpdateCharacter();
         }
 
         public void SetInventory()
@@ -37,6 +39,12 @@ namespace RogueLike_2._0_
             {
                 Inventory[i] = MakeShiftDataBases.Items[0];
             }
+        }
+
+        public void UpdateCharacter()
+        {
+            LimitXP = Convert.ToInt32(100 * Math.Pow(1.2, PlayerLevel - 1));
+            Dodge = Convert.ToInt32(Math.Ceiling(1.0 + 4.0 / 3.0 * Agility + Luck * 1.5));
         }
     }
 }
