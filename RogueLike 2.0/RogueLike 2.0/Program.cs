@@ -22,11 +22,12 @@ namespace RogueLike_2._0_
             Console.SetWindowSize(90, 40);
 
             MakeShiftDataBases.InitDBs();
-            Player = new Player(0, 0, 5, 3, 3, 3, 3, "&", "player", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[1]); 
+            Player = new Player(0, 0, 5, 3, 3, 3, 3, "&", "player", 1, 1, 0, 0, 10, MakeShiftDataBases.Items[201]); 
             Console.Clear();
             InitMap();
             InitEntities();
             Player.Inventory[0] = MakeShiftDataBases.Items[1];
+            Player.Inventory[1] = MakeShiftDataBases.Items[202];
 
             RenderFunctions.InitColors();
             RenderFunctions.RenderMap(Map);
@@ -68,6 +69,10 @@ namespace RogueLike_2._0_
             }
 
             Map[rnd.Next(30), rnd.Next(30)] = "<";
+            for (int i = 0; i < 5; i++)
+            {
+                Map[rnd.Next(30), rnd.Next(30)] = "/";
+            }
         }
 
         static void KeyPress()
@@ -77,15 +82,39 @@ namespace RogueLike_2._0_
             {
                 case ConsoleKey.UpArrow:
                     if (!Collision(Player.Y - 1, Player.X)) RenderFunctions.RenderMovement(Player.Y, Player.X, --Player.Y, Player.X);
+                    if (Player.Armor.ArmorCooldown != 0 && Player.Armor != MakeShiftDataBases.Items[201])
+                    {
+                        Player.Armor.ArmorCooldown++;
+                        if (Player.Armor.ArmorCooldown >= 0)
+                            Player.Armor.ArmorAm = Player.Armor.ArmorMaxAm;
+                    }
                     break;
                 case ConsoleKey.RightArrow:
                     if (!Collision(Player.Y, Player.X + 1)) RenderFunctions.RenderMovement(Player.Y, Player.X, Player.Y, ++Player.X);
+                    if (Player.Armor.ArmorCooldown != 0 && Player.Armor != MakeShiftDataBases.Items[201])
+                    {
+                        Player.Armor.ArmorCooldown++;
+                        if (Player.Armor.ArmorCooldown >= 0)
+                            Player.Armor.ArmorAm = Player.Armor.ArmorMaxAm;
+                    }
                     break;
                 case ConsoleKey.DownArrow:
                     if (!Collision(Player.Y + 1, Player.X)) RenderFunctions.RenderMovement(Player.Y, Player.X, ++Player.Y, Player.X);
+                    if (Player.Armor.ArmorCooldown != 0 && Player.Armor != MakeShiftDataBases.Items[201])
+                    {
+                        Player.Armor.ArmorCooldown++;
+                        if (Player.Armor.ArmorCooldown >= 0)
+                            Player.Armor.ArmorAm = Player.Armor.ArmorMaxAm;
+                    }
                     break;
                 case ConsoleKey.LeftArrow:
                     if (!Collision(Player.Y, Player.X - 1)) RenderFunctions.RenderMovement(Player.Y, Player.X, Player.Y, --Player.X);
+                    if (Player.Armor.ArmorCooldown != 0 && Player.Armor != MakeShiftDataBases.Items[201])
+                    {
+                        Player.Armor.ArmorCooldown++;
+                        if (Player.Armor.ArmorCooldown >= 0)
+                            Player.Armor.ArmorAm = Player.Armor.ArmorMaxAm;
+                    }
                     break;
                 case ConsoleKey.NumPad2:
                     ReplaceInvemtory(1);
@@ -120,11 +149,32 @@ namespace RogueLike_2._0_
         private static void ReplaceInvemtory(int target)
         {
             Item buffer = new Item();
-            buffer = Player.Inventory[0];
-            Player.Inventory[0] = Player.Inventory[target];
-            Player.Inventory[target] = buffer;
-            RenderFunctions.UpdateInventoryUI(Player);
-            RenderFunctions.UpdateCharacterUI(Player);
+            if(Player.Inventory[target].Type == "weapon")
+            {
+                buffer = Player.Inventory[0];
+                Player.Inventory[0] = Player.Inventory[target];
+                Player.Inventory[target] = buffer;
+                RenderFunctions.UpdateInventoryUI(Player);
+                RenderFunctions.UpdateCharacterUI(Player);
+            }
+            else if (Player.Inventory[target].Type == "armor")
+            {
+                if (Player.Armor != MakeShiftDataBases.Items[201])
+                {
+                    buffer = Player.Armor;
+                    Player.Armor = Player.Inventory[target];
+                    Player.Inventory[target] = buffer;
+                    RenderFunctions.UpdateInventoryUI(Player);
+                    RenderFunctions.UpdateSliderUI(Player);
+                }
+                else
+                {
+                    Player.Armor = Player.Inventory[target];
+                    Player.Inventory[target] = new Item(MakeShiftDataBases.Items[0]);
+                    RenderFunctions.UpdateInventoryUI(Player);
+                    RenderFunctions.UpdateSliderUI(Player);
+                }
+            }
         }
 
         static bool Collision(int newY, int newX)
@@ -156,6 +206,33 @@ namespace RogueLike_2._0_
                 RenderFunctions.UpdateCharacterUI(Player);
                 RenderFunctions.UpdateFooter(Player);
                 RenderFunctions.UpdateLogUI();
+            }
+            else if (Map[newY, newX] == "/")
+            {
+                List<Item> availableItems = new List<Item>();
+                foreach (var item in MakeShiftDataBases.Items)
+                {
+                    if(item.Value.level != "-")
+                    {
+                        string[] levels = item.Value.level.Split("-");
+                        if (Convert.ToInt32(levels[0]) <= Player.level && Player.level <+ Convert.ToInt32(levels[1]))
+                        {
+                            availableItems.Add(item.Value);
+                        }
+                    }
+                }
+
+                Random rnd = new Random();
+                for (int i = 1; i < 10; i++)
+                {
+                    if (Player.Inventory[i].Type == "empty")
+                    {
+                        Player.Inventory[i] = new Item(availableItems[rnd.Next(availableItems.Count)]);
+                        RenderFunctions.UpdateInventoryUI(Player);
+                        RenderFunctions.UpdateCharacterUI(Player);
+                        break;
+                    }
+                }
             }
 
             return false;
@@ -191,9 +268,21 @@ namespace RogueLike_2._0_
                             {
                                 damage = rnd.Next(Entities[i].WeaponItem.DmgMin + Entities[i].Damage,
                                     Entities[i].WeaponItem.DmgMax + Entities[i].Damage + 1);
-                                Player.HP -= damage;
-                                if (Player.HP < 0)
-                                    Player.HP = 0;
+                                if(Player.Armor.ArmorAm < 0 || Player.Armor.Name == MakeShiftDataBases.Items[201].Name)
+                                {
+                                    Player.HP -= damage;
+                                    if (Player.HP < 0)
+                                        Player.HP = 0;
+                                }
+                                else
+                                {
+                                    Player.Armor.ArmorAm -= damage;
+                                    if (Player.Armor.ArmorAm < 0)
+                                    {
+                                        Player.Armor.ArmorAm = 0;
+                                        Player.Armor.ArmorCooldown = -5;
+                                    }
+                                }
                                 RenderFunctions.UpdateLogUI(
                                     $"{damage} Damage Was Dealt To Player By {Entities[i].Name}", 2);
                                 RenderFunctions.UpdateSliderUI(Player);

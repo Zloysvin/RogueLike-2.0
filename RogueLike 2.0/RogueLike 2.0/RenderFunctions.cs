@@ -27,6 +27,7 @@ namespace RogueLike_2._0_
                 {".", ConsoleColor.DarkGray},
                 {"_", ConsoleColor.Black},
                 {"<", ConsoleColor.Cyan},
+                {"/", ConsoleColor.Cyan},
 
                 {"░", ConsoleColor.Red},
                 {"▒", ConsoleColor.Gray},

@@ -15,6 +15,7 @@ namespace RogueLike_2._0_
         public int DmgMin;
         public int ArmorMaxAm;
         public int ArmorAm;
+        public int ArmorCooldown;
         public int Heal;
         public int SpecialID;
         public string level;
@@ -24,6 +25,20 @@ namespace RogueLike_2._0_
         public Item()
         {
 
+        }
+        public Item(Item item)
+        {
+            Name = item.Name;
+            Type = item.Type;
+            DmgMax = item.DmgMax;
+            DmgMin = item.DmgMin;
+            ArmorMaxAm = item.ArmorMaxAm;
+            ArmorAm = item.ArmorAm;
+            Heal = item.Heal;
+            SpecialID = item.SpecialID;
+            this.level = item.level;
+            Dropable = item.Dropable;
+            DropChance = item.DropChance;
         }
         public Item(string name, string type, int dmgMax, int dmgMin,  int specialId, string level, bool dropable)
         {
@@ -61,6 +76,7 @@ namespace RogueLike_2._0_
             Type = type;
             ArmorMaxAm = armorMaxAm;
             ArmorAm = armorMaxAm;
+            ArmorCooldown = 0;
             this.level = level;
             DropChance = dropChance;
         }

@@ -19,15 +19,25 @@ namespace RogueLike_2._0_
         {
             Items = new Dictionary<int, Item>
             {
-                {0, new Item("<Empty>", "empty",0, 0, 0, "-", false) },
-                {1, new Item("Short Sword", "weapon", 6, 3, 0, "0-3", true)},
-                {101, new Item("Claw", "weapon", 4, 1, 0, "0-5", true, 10)},
-                {102, new Item("Robo-Claw", "weapon", 5, 2, 0,"0-5" ,true, 10)},
-                {103, new Item("Spear", "weapon", 7, 4, 0,"2-5" ,true, 10)},
-                {104, new Item("Tusk", "weapon", 4, 3, 0,"-" ,false, 0)},
-                {105, new Item("Robo-Tusk", "weapon", 6, 4, 0,"-" ,false, 0)},
-                {666, new Item("Admin Sword", "weapon", 250, 10, 0, "-", false)},
-                {201, new Item(0, "No Armor", "armor", "-", 0)}
+                { 0, new Item("<Empty>", "empty", 0, 0, 0, "-", false) },
+                { 1, new Item("Short Sword", "weapon", 5, 0, 0, "0-3", true) },
+                { 2, new Item("Long Sword", "weapon", 8, 2, 0, "2-4", true) },
+                { 3, new Item("Dagger", "weapon", 3, 0, 0, "0-2", true) },
+                { 4, new Item("Knuckleduster", "weapon", 6, 1, 0, "0-4", true) },
+                { 5, new Item("Quarterstaff", "weapon", 7, 1, 0, "1-4", true) },
+                { 6, new Item("Mace", "weapon", 9, 3, 0, "3-5", true) },
+                { 7, new Item("Battle Axe", "weapon", 10, 3, 0, "4-5", true) },
+                { 8, new Item("Quarterstaff", "weapon", 11, 6, 0, "4-5", true) },
+                { 9, new Item("Glaive", "weapon", 7, 12, 7, "5-5", true) },
+
+                { 101, new Item("Claw", "weapon", 4, 1, 0, "-", true, 10) },
+                { 102, new Item("Robo-Claw", "weapon", 5, 2, 0, "-", true, 10) },
+                { 103, new Item("Spear", "weapon", 7, 4, 0, "2-5", true, 10) },
+                { 104, new Item("Tusk", "weapon", 4, 3, 0, "-", false, 0) },
+                { 105, new Item("Robo-Tusk", "weapon", 6, 4, 0, "-", false, 0) },
+                { 666, new Item("Admin Sword", "weapon", 250, 10, 0, "-", false) },
+                { 201, new Item(0, "No Armor", "armor", "-", 0) },
+                { 202, new Item(10, "Leather Armor", "armor", "1-5", 10) }
             };
             Entities = new Dictionary<string, Entity>
             {//y, x, hp, str, agl, end, lck
